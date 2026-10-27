@@ -1,16 +1,6 @@
-import os
-import glob
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-import random
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-import pprint
-import pyspark
-import pyspark.sql.functions as F
-import argparse
+from datetime import datetime
 
+import pyspark.sql.functions as F
 from pyspark.sql.functions import col
 from pyspark.sql.types import StringType, IntegerType, FloatType, DateType, DecimalType
 
@@ -199,7 +189,15 @@ def process_financials(snapshot_date_str, bronze_financials_directory, silver_fi
     "Monthly_Inhand_Salary", F.col("Monthly_Inhand_Salary").cast(DecimalType(10,2))
     )
 
-    ## Re-calculate Num_of_Loan
+    ## Num_of_Loan: strip non-digit noise such as "3_" before casting (otherwise the cast returns null).
+    ## The minus sign is kept so that "-100" stays negative and is set to null below, rather than becoming 100.
+    df = df.withColumn(
+    "Num_of_Loan",
+    F.regexp_replace(F.col("Num_of_Loan").cast(StringType()), r"[^0-9-]", "").cast(IntegerType())
+    )
+    df = df.withColumn("Num_of_Loan", F.when(F.col("Num_of_Loan") >= 0, F.col("Num_of_Loan")))
+
+    ## Re-calculate Num_of_Loan (alternative approach, kept for reference)
     #df = df.withColumn(
     # 1. Clean out the oxford / conjunction 'and ' so delimiters become purely commas
     #"cleaned_loans",
@@ -215,10 +213,21 @@ def process_financials(snapshot_date_str, bronze_financials_directory, silver_fi
     #).drop("cleaned_loans")
 
 
-    ## Remove "_" and "-" in Num_of_Delayed_Payment, cast to int, and get absolute value
+    ## Num_of_Delayed_Payment: remove "_" noise and cast to int; negative values are invalid -> null
+    ## (the minus sign is no longer stripped, which used to turn -2 into +2)
     df = df.withColumn(
     "Num_of_Delayed_Payment",
-    F.regexp_replace(F.col("Num_of_Delayed_Payment"), "[_-]", "").cast(IntegerType())
+    F.regexp_replace(F.col("Num_of_Delayed_Payment").cast(StringType()), "_", "").cast(IntegerType())
+    )
+    df = df.withColumn(
+    "Num_of_Delayed_Payment",
+    F.when(F.col("Num_of_Delayed_Payment") >= 0, F.col("Num_of_Delayed_Payment"))
+    )
+
+    ## Delay_from_due_date: negative days of delay are invalid -> null
+    df = df.withColumn(
+    "Delay_from_due_date",
+    F.when(F.col("Delay_from_due_date").cast(IntegerType()) >= 0, F.col("Delay_from_due_date").cast(IntegerType()))
     )
 
     # Fill blank Changed_Credit_Limit by "Not Specified"
@@ -266,10 +275,13 @@ def process_financials(snapshot_date_str, bronze_financials_directory, silver_fi
     F.col("Total_EMI_per_month").cast(DecimalType(10,2))
     )
 
-    #Amount invest monthly
+    # Amount invested monthly: "__10000__" is a placeholder value, not a real amount -> null
+    # (must happen before "_" is stripped, otherwise it becomes a real 10000.00)
     df = df.withColumn(
     "Amount_invested_monthly",
-    F.regexp_replace(F.col("Amount_invested_monthly"), "_", "").cast(DecimalType(10,2))
+    F.when(F.col("Amount_invested_monthly").cast(StringType()) == "__10000__", None)
+     .otherwise(F.regexp_replace(F.col("Amount_invested_monthly").cast(StringType()), "_", ""))
+     .cast(DecimalType(10,2))
     )
 
     # round monthly balance
@@ -309,7 +321,18 @@ def process_financials(snapshot_date_str, bronze_financials_directory, silver_fi
     for column, new_type in column_type_map.items():
         df = df.withColumn(column, col(column).cast(new_type))
 
-
+    # Cap outliers at fixed business limits (from EDA, same approach as Tan Yin Yun).
+    # Fixed caps, not per-month percentiles, so every monthly partition is cleaned the same way.
+    outlier_caps = {
+        "Num_Bank_Accounts": 10,
+        "Num_Credit_Card": 10,
+        "Interest_Rate": 34,
+        "Num_of_Loan": 9,
+        "Num_of_Delayed_Payment": 47,
+        "Num_Credit_Inquiries": 26,
+    }
+    for column, cap in outlier_caps.items():
+        df = df.withColumn(column, F.when(col(column) > cap, cap).otherwise(col(column)).cast(IntegerType()))
 
     # save silver table - IRL connect to database to write
     partition_name = "silver_daily_" + snapshot_date_str.replace('-','_') + '.parquet'

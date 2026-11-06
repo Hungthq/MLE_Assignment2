@@ -38,6 +38,8 @@ from sklearn.metrics import roc_auc_score
 
 import xgboost as xgb
 
+from utils.model_monitoring import build_distribution_baseline
+
 
 # ---------------------------------------------------------------------------
 # constants
@@ -123,10 +125,21 @@ def load_training_data(spark, config, feature_store_dir=FEATURE_STORE_DIR, label
             f"{config['train_test_period_months']}+{config['oot_period_months']} month window falls inside it."
         )
 
+    # completeness guard: every label needs the features captured at its application month
+    unmatched = data_pdf[data_pdf["feature_snapshot_date"].isna()]
+    n_unmatched = len(unmatched)
+    if n_unmatched:
+        missing_months = sorted(str(d) for d in unmatched["loan_start_date"].unique())
+        raise ValueError(
+            f"{n_unmatched} labels have no features: gold feature store is missing application month(s) "
+            f"{missing_months}. Run the feature pipeline for those months first "
+            f"(python data_pipeline.py --snapshotdate <month> --stage features)."
+        )
+
     # point-in-time guard: features must be from before the training date
-    assert (pd.to_datetime(data_pdf["feature_snapshot_date"]) < config["model_train_date"]).all(), \
-        "feature snapshot after model_train_date - leakage"
-    n_unmatched = data_pdf["feature_snapshot_date"].isna().sum()
+    feature_dates = pd.to_datetime(data_pdf["feature_snapshot_date"])
+    if not (feature_dates < config["model_train_date"]).all():
+        raise ValueError(f"feature snapshot on/after model_train_date {config['model_train_date_str']} - leakage")
 
     if verbose:
         print("labels in window:", len(data_pdf), "| labels without features:", n_unmatched,
@@ -326,6 +339,11 @@ def build_artefact(config, best_name, candidates, splits, feature_cols, numeric_
     model_artefact["hp_params"] = best["best_params"]
     model_artefact["candidates"] = {n: {"results": c["results"], "hp_params": c["best_params"]}
                                     for n, c in candidates.items()}
+
+    # reference distributions for monitoring (PSI): held-out test split, scored by the selected model
+    X_test, _ = splits["test"]
+    test_scores = best["model"].predict_proba(X_test)[:, 1]
+    model_artefact["baseline"] = build_distribution_baseline(X_test, test_scores, numeric_cols, categorical_cols)
     return model_artefact
 
 

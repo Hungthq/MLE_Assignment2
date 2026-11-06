@@ -1,0 +1,3 @@
+# keep Jupyter backup copies out of Airflow (they duplicate dag_id credit_model_pipeline)
+\.ipynb_checkpoints
+__pycache__

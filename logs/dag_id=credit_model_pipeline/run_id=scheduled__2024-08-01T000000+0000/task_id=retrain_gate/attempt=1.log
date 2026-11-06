@@ -1,0 +1,22 @@
+[2026-10-27T07:41:23.459+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-10-27T07:41:23.466+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: credit_model_pipeline.retrain_gate scheduled__2024-08-01T00:00:00+00:00 [queued]>
+[2026-10-27T07:41:23.470+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: credit_model_pipeline.retrain_gate scheduled__2024-08-01T00:00:00+00:00 [queued]>
+[2026-10-27T07:41:23.471+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2026-10-27T07:41:23.479+0000] {taskinstance.py:2890} INFO - Executing <Task(ShortCircuitOperator): retrain_gate> on 2024-08-01 00:00:00+00:00
+[2026-10-27T07:41:23.484+0000] {standard_task_runner.py:72} INFO - Started process 13568 to run task
+[2026-10-27T07:41:23.486+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'credit_model_pipeline', 'retrain_gate', 'scheduled__2024-08-01T00:00:00+00:00', '--job-id', '113', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmp7ja5mplc']
+[2026-10-27T07:41:23.487+0000] {standard_task_runner.py:105} INFO - Job 113: Subtask retrain_gate
+[2026-10-27T07:41:23.508+0000] {task_command.py:467} INFO - Running <TaskInstance: credit_model_pipeline.retrain_gate scheduled__2024-08-01T00:00:00+00:00 [running]> on host f3927fb480fb
+[2026-10-27T07:41:23.575+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='credit_model_pipeline' AIRFLOW_CTX_TASK_ID='retrain_gate' AIRFLOW_CTX_EXECUTION_DATE='2024-08-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-08-01T00:00:00+00:00'
+[2026-10-27T07:41:23.576+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-10-27T07:41:23.584+0000] {baseoperator.py:423} WARNING - ShortCircuitOperator.execute cannot be called outside TaskInstance!
+[2026-10-27T07:41:23.584+0000] {logging_mixin.py:190} INFO - 2024-08-01 retrain date? False (RETRAIN_DATES=['2024-09-01'])
+[2026-10-27T07:41:23.585+0000] {python.py:240} INFO - Done. Returned value was: False
+[2026-10-27T07:41:23.585+0000] {python.py:309} INFO - Condition result is False
+[2026-10-27T07:41:23.585+0000] {python.py:336} INFO - Skipping downstream tasks
+[2026-10-27T07:41:23.597+0000] {python.py:344} INFO - Done.
+[2026-10-27T07:41:23.603+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-10-27T07:41:23.604+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=credit_model_pipeline, task_id=retrain_gate, run_id=scheduled__2024-08-01T00:00:00+00:00, execution_date=20240801T000000, start_date=20261027T074123, end_date=20261027T074123
+[2026-10-27T07:41:23.618+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-10-27T07:41:23.627+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-10-27T07:41:23.627+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

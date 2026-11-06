@@ -1,0 +1,44 @@
+[2026-11-06T09:26:02.202+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-11-06T09:26:02.210+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: credit_model_pipeline.model_inference scheduled__2024-09-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:26:02.214+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: credit_model_pipeline.model_inference scheduled__2024-09-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:26:02.214+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2026-11-06T09:26:02.224+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): model_inference> on 2024-09-01 00:00:00+00:00
+[2026-11-06T09:26:02.229+0000] {standard_task_runner.py:72} INFO - Started process 32863 to run task
+[2026-11-06T09:26:02.230+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'credit_model_pipeline', 'model_inference', 'scheduled__2024-09-01T00:00:00+00:00', '--job-id', '106', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmpg13q3ruy']
+[2026-11-06T09:26:02.231+0000] {standard_task_runner.py:105} INFO - Job 106: Subtask model_inference
+[2026-11-06T09:26:02.252+0000] {task_command.py:467} INFO - Running <TaskInstance: credit_model_pipeline.model_inference scheduled__2024-09-01T00:00:00+00:00 [running]> on host fe62c2944fac
+[2026-11-06T09:26:02.284+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='credit_model_pipeline' AIRFLOW_CTX_TASK_ID='model_inference' AIRFLOW_CTX_EXECUTION_DATE='2024-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-09-01T00:00:00+00:00'
+[2026-11-06T09:26:02.285+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-11-06T09:26:02.291+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-11-06T09:26:02.292+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'cd /opt/airflow/scripts && python3 model_inference.py --snapshotdate "2024-09-01" --modelname latest']
+[2026-11-06T09:26:02.298+0000] {subprocess.py:99} INFO - Output:
+[2026-11-06T09:26:04.039+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2026-11-06T09:26:04.040+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2026-11-06T09:26:04.160+0000] {subprocess.py:106} INFO - 26/11/06 09:26:04 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-11-06T09:26:16.578+0000] {subprocess.py:106} INFO - [Stage 5:>                                                        (0 + 24) / 24][Stage 5:============================>                           (12 + 12) / 24]                                                                                latest model: credit_model_2024_09_01.pkl
+[2026-11-06T09:26:16.579+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:26:16.580+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:26:16.580+0000] {subprocess.py:106} INFO - ---starting job---
+[2026-11-06T09:26:16.581+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:26:16.581+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:26:16.581+0000] {subprocess.py:106} INFO - {'feature_store_directory': 'datamart/gold/feature_store/',
+[2026-11-06T09:26:16.581+0000] {subprocess.py:106} INFO -  'model_artefact_filepath': 'model_bank/credit_model_2024_09_01.pkl',
+[2026-11-06T09:26:16.582+0000] {subprocess.py:106} INFO -  'model_bank_directory': 'model_bank/',
+[2026-11-06T09:26:16.582+0000] {subprocess.py:106} INFO -  'model_name': 'credit_model_2024_09_01.pkl',
+[2026-11-06T09:26:16.583+0000] {subprocess.py:106} INFO -  'snapshot_date': datetime.datetime(2024, 9, 1, 0, 0),
+[2026-11-06T09:26:16.583+0000] {subprocess.py:106} INFO -  'snapshot_date_str': '2024-09-01'}
+[2026-11-06T09:26:16.584+0000] {subprocess.py:106} INFO - Model loaded successfully! model_bank/credit_model_2024_09_01.pkl
+[2026-11-06T09:26:16.584+0000] {subprocess.py:106} INFO - extracted features_sdf 493 2024-09-01 00:00:00 from datamart/gold/feature_store/gold_feature_store_2024_09_01.parquet
+[2026-11-06T09:26:16.584+0000] {subprocess.py:106} INFO - X_inference (493, 57) | clickstream missing: 1.0
+[2026-11-06T09:26:16.585+0000] {subprocess.py:106} INFO - saved to: datamart/gold/model_predictions/credit_model_2024_09_01/credit_model_2024_09_01_predictions_2024_09_01.parquet
+[2026-11-06T09:26:16.585+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:26:16.585+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:26:16.585+0000] {subprocess.py:106} INFO - ---completed job---
+[2026-11-06T09:26:16.586+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:26:16.586+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:26:17.149+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2026-11-06T09:26:17.164+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-11-06T09:26:17.165+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=credit_model_pipeline, task_id=model_inference, run_id=scheduled__2024-09-01T00:00:00+00:00, execution_date=20240901T000000, start_date=20261106T092602, end_date=20261106T092617
+[2026-11-06T09:26:17.181+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-11-06T09:26:17.191+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-11-06T09:26:17.195+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

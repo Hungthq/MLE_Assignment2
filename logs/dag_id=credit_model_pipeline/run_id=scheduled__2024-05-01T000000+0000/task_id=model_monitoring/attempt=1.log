@@ -33,3 +33,39 @@
 [2026-10-27T07:38:58.765+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
 [2026-10-27T07:38:58.772+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
 [2026-10-27T07:38:58.773+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-11-06T09:21:29.966+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-11-06T09:21:29.975+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: credit_model_pipeline.model_monitoring scheduled__2024-05-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:21:29.978+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: credit_model_pipeline.model_monitoring scheduled__2024-05-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:21:29.979+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2026-11-06T09:21:29.988+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): model_monitoring> on 2024-05-01 00:00:00+00:00
+[2026-11-06T09:21:29.992+0000] {standard_task_runner.py:72} INFO - Started process 26114 to run task
+[2026-11-06T09:21:29.993+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'credit_model_pipeline', 'model_monitoring', 'scheduled__2024-05-01T00:00:00+00:00', '--job-id', '86', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmp1zq5txm7']
+[2026-11-06T09:21:29.995+0000] {standard_task_runner.py:105} INFO - Job 86: Subtask model_monitoring
+[2026-11-06T09:21:30.017+0000] {task_command.py:467} INFO - Running <TaskInstance: credit_model_pipeline.model_monitoring scheduled__2024-05-01T00:00:00+00:00 [running]> on host fe62c2944fac
+[2026-11-06T09:21:30.051+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='credit_model_pipeline' AIRFLOW_CTX_TASK_ID='model_monitoring' AIRFLOW_CTX_EXECUTION_DATE='2024-05-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-05-01T00:00:00+00:00'
+[2026-11-06T09:21:30.052+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-11-06T09:21:30.059+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-11-06T09:21:30.060+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'cd /opt/airflow/scripts && python3 model_monitoring.py --snapshotdate "2024-05-01"']
+[2026-11-06T09:21:30.067+0000] {subprocess.py:99} INFO - Output:
+[2026-11-06T09:21:32.523+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2026-11-06T09:21:32.525+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2026-11-06T09:21:32.670+0000] {subprocess.py:106} INFO - 26/11/06 09:21:32 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-11-06T09:21:42.902+0000] {subprocess.py:106} INFO - [Stage 3:>                (0 + 20) / 20][Stage 4:>                 (0 + 4) / 19][Stage 3:=====>           (6 + 14) / 20][Stage 4:>                (0 + 10) / 19]
+[2026-11-06T09:21:42.908+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:21:42.909+0000] {subprocess.py:106} INFO - ---starting job---
+[2026-11-06T09:21:42.909+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:21:42.910+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:21:42.910+0000] {subprocess.py:106} INFO - skip credit_model_2024_09_01: no predictions up to 2024-05-01
+[2026-11-06T09:21:42.910+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:21:42.910+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:21:42.911+0000] {subprocess.py:106} INFO - ---completed job---
+[2026-11-06T09:21:42.911+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:21:42.911+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:21:42.911+0000] {subprocess.py:106} INFO - no model predictions to monitor yet
+[2026-11-06T09:21:43.604+0000] {subprocess.py:110} INFO - Command exited with return code 99
+[2026-11-06T09:21:43.605+0000] {taskinstance.py:302} INFO - Bash command returned exit code 99. Skipping.
+[2026-11-06T09:21:43.620+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-11-06T09:21:43.621+0000] {taskinstance.py:353} INFO - Marking task as SKIPPED. dag_id=credit_model_pipeline, task_id=model_monitoring, run_id=scheduled__2024-05-01T00:00:00+00:00, execution_date=20240501T000000, start_date=20261106T092129, end_date=20261106T092143
+[2026-11-06T09:21:43.637+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-11-06T09:21:43.645+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-11-06T09:21:43.646+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

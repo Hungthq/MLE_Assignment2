@@ -25,7 +25,7 @@ from dateutil.relativedelta import relativedelta
 import numpy as np
 import pandas as pd
 
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, lit, nanvl
 from pyspark.sql.types import DecimalType
 
 from sklearn.metrics import roc_auc_score
@@ -319,10 +319,11 @@ def save_monitoring(spark, mon_pdf, monitoring_dir=MONITORING_DIR, with_chart=Tr
     os.makedirs(out_dir, exist_ok=True)
 
     filepath = os.path.join(out_dir, f"{model_version}_monitoring_{as_of_str}.parquet")
-    sdf_pdf = mon_pdf.copy()
-    for c in sdf_pdf.select_dtypes(include="float").columns:
-        sdf_pdf[c] = sdf_pdf[c].astype(object).where(sdf_pdf[c].notna(), None)
-    spark.createDataFrame(sdf_pdf).write.mode("overwrite").parquet(filepath)
+    
+    sdf = spark.createDataFrame(mon_pdf)
+    for c in mon_pdf.select_dtypes(include="float").columns:
+        sdf = sdf.withColumn(c, nanvl(col(c), lit(None).cast("double")))
+    sdf.write.mode("overwrite").parquet(filepath)
     print("saved to:", filepath)
 
     chart_path = None

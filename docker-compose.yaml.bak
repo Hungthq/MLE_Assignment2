@@ -1,0 +1,57 @@
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
+    container_name: jupyter_lab_assignment2
+    ports:
+      - "8822:8822"
+    volumes:
+      - .:/app
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    command: ["jupyter", "lab", "--ip=0.0.0.0", "--port=8822", "--no-browser", "--allow-root", "--notebook-dir=/app", "--ServerApp.token=''", "--ServerApp.disable_check_xsrf=True"]
+
+  # ---------------- Airflow (SequentialExecutor + SQLite: one task at a time) ----------------
+  airflow-init:
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
+    image: mle-assignment2-airflow
+    environment: &airflow-env
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=True
+      - AIRFLOW__WEBSERVER__SECRET_KEY=mle-assignment2
+    volumes: &airflow-volumes
+      - airflow_data:/opt/airflow
+      - ./dag:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - .:/opt/airflow/scripts
+    entrypoint: >
+      /bin/bash -c "airflow db migrate &&
+      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com || true"
+
+  airflow-webserver:
+    image: mle-assignment2-airflow
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+    environment: *airflow-env
+    volumes: *airflow-volumes
+    ports:
+      - "8080:8080"
+    command: webserver
+
+  airflow-scheduler:
+    image: mle-assignment2-airflow
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+    environment: *airflow-env
+    volumes: *airflow-volumes
+    command: scheduler
+
+volumes:
+  airflow_data:

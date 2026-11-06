@@ -1,0 +1,160 @@
+[2026-11-06T08:47:37.571+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-11-06T08:47:37.578+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: credit_model_pipeline.model_train scheduled__2024-09-01T00:00:00+00:00 [queued]>
+[2026-11-06T08:47:37.581+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: credit_model_pipeline.model_train scheduled__2024-09-01T00:00:00+00:00 [queued]>
+[2026-11-06T08:47:37.582+0000] {taskinstance.py:2867} INFO - Starting attempt 3 of 4
+[2026-11-06T08:47:37.591+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): model_train> on 2024-09-01 00:00:00+00:00
+[2026-11-06T08:47:37.595+0000] {standard_task_runner.py:72} INFO - Started process 5820 to run task
+[2026-11-06T08:47:37.598+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'credit_model_pipeline', 'model_train', 'scheduled__2024-09-01T00:00:00+00:00', '--job-id', '208', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmpjpijxkqt']
+[2026-11-06T08:47:37.599+0000] {standard_task_runner.py:105} INFO - Job 208: Subtask model_train
+[2026-11-06T08:47:37.628+0000] {task_command.py:467} INFO - Running <TaskInstance: credit_model_pipeline.model_train scheduled__2024-09-01T00:00:00+00:00 [running]> on host c19777b7790d
+[2026-11-06T08:47:37.659+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='credit_model_pipeline' AIRFLOW_CTX_TASK_ID='model_train' AIRFLOW_CTX_EXECUTION_DATE='2024-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-09-01T00:00:00+00:00'
+[2026-11-06T08:47:37.660+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-11-06T08:47:37.666+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-11-06T08:47:37.667+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'cd /opt/airflow/scripts && python3 model_train.py --model_train_date "2024-09-01" --train_test_months 12 --oot_months 2']
+[2026-11-06T08:47:37.672+0000] {subprocess.py:99} INFO - Output:
+[2026-11-06T08:47:40.166+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2026-11-06T08:47:40.167+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2026-11-06T08:47:40.320+0000] {subprocess.py:106} INFO - 26/11/06 08:47:40 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-11-06T08:47:46.513+0000] {subprocess.py:106} INFO - {'model_train_date': datetime.datetime(2024, 9, 1, 0, 0),
+[2026-11-06T08:47:46.514+0000] {subprocess.py:106} INFO -  'model_train_date_str': '2024-09-01',
+[2026-11-06T08:47:46.515+0000] {subprocess.py:106} INFO -  'oot_end_date': datetime.datetime(2024, 8, 31, 0, 0),
+[2026-11-06T08:47:46.515+0000] {subprocess.py:106} INFO -  'oot_period_months': 2,
+[2026-11-06T08:47:46.516+0000] {subprocess.py:106} INFO -  'oot_start_date': datetime.datetime(2024, 7, 1, 0, 0),
+[2026-11-06T08:47:46.516+0000] {subprocess.py:106} INFO -  'train_test_end_date': datetime.datetime(2024, 6, 30, 0, 0),
+[2026-11-06T08:47:46.516+0000] {subprocess.py:106} INFO -  'train_test_period_months': 12,
+[2026-11-06T08:47:46.517+0000] {subprocess.py:106} INFO -  'train_test_ratio': 0.8,
+[2026-11-06T08:47:46.517+0000] {subprocess.py:106} INFO -  'train_test_start_date': datetime.datetime(2023, 7, 1, 0, 0)}
+[2026-11-06T08:47:46.517+0000] {subprocess.py:106} INFO - Traceback (most recent call last):
+[2026-11-06T08:47:46.518+0000] {subprocess.py:106} INFO -   File "/opt/airflow/scripts/model_train.py", line 49, in <module>
+[2026-11-06T08:47:46.518+0000] {subprocess.py:106} INFO -     main()
+[2026-11-06T08:47:46.518+0000] {subprocess.py:106} INFO -   File "/opt/airflow/scripts/model_train.py", line 32, in main
+[2026-11-06T08:47:46.519+0000] {subprocess.py:106} INFO -     artefact = mt.run_training(
+[2026-11-06T08:47:46.519+0000] {subprocess.py:106} INFO -                ^^^^^^^^^^^^^^^^
+[2026-11-06T08:47:46.520+0000] {subprocess.py:106} INFO -   File "/opt/airflow/scripts/utils/model_train.py", line 394, in run_training
+[2026-11-06T08:47:46.523+0000] {subprocess.py:106} INFO -     data_pdf = load_training_data(spark, config, feature_store_dir, label_store_dir, verbose=verbose)
+[2026-11-06T08:47:46.523+0000] {subprocess.py:106} INFO -                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-11-06T08:47:46.523+0000] {subprocess.py:106} INFO -   File "/opt/airflow/scripts/utils/model_train.py", line 122, in load_training_data
+[2026-11-06T08:47:46.527+0000] {subprocess.py:106} INFO -     raise ValueError(
+[2026-11-06T08:47:46.528+0000] {subprocess.py:106} INFO - ValueError: no labels between 2023-07-01 and 2024-08-31. Label store covers 2024-09-01 -> 2024-09-01; pick a model_train_date so the 12+2 month window falls inside it.
+[2026-11-06T08:47:47.150+0000] {subprocess.py:110} INFO - Command exited with return code 1
+[2026-11-06T08:47:47.160+0000] {taskinstance.py:3313} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py", line 276, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-11-06T08:47:47.166+0000] {taskinstance.py:1226} INFO - Marking task as UP_FOR_RETRY. dag_id=credit_model_pipeline, task_id=model_train, run_id=scheduled__2024-09-01T00:00:00+00:00, execution_date=20240901T000000, start_date=20261106T084737, end_date=20261106T084747
+[2026-11-06T08:47:47.185+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-11-06T08:47:47.186+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 208 for task model_train (Bash command failed. The command returned a non-zero exit code 1.; 5820)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3006, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 274, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3161, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3185, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py", line 276, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-11-06T08:47:47.192+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-11-06T08:47:47.207+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-11-06T08:47:47.207+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-11-06T09:55:50.833+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-11-06T09:55:50.842+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: credit_model_pipeline.model_train scheduled__2024-09-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:55:50.847+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: credit_model_pipeline.model_train scheduled__2024-09-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:55:50.847+0000] {taskinstance.py:2867} INFO - Starting attempt 3 of 4
+[2026-11-06T09:55:50.857+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): model_train> on 2024-09-01 00:00:00+00:00
+[2026-11-06T09:55:50.862+0000] {standard_task_runner.py:72} INFO - Started process 47127 to run task
+[2026-11-06T09:55:50.863+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'credit_model_pipeline', 'model_train', 'scheduled__2024-09-01T00:00:00+00:00', '--job-id', '140', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmpq1en9ksv']
+[2026-11-06T09:55:50.864+0000] {standard_task_runner.py:105} INFO - Job 140: Subtask model_train
+[2026-11-06T09:55:50.889+0000] {task_command.py:467} INFO - Running <TaskInstance: credit_model_pipeline.model_train scheduled__2024-09-01T00:00:00+00:00 [running]> on host fe62c2944fac
+[2026-11-06T09:55:50.937+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='credit_model_pipeline' AIRFLOW_CTX_TASK_ID='model_train' AIRFLOW_CTX_EXECUTION_DATE='2024-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-09-01T00:00:00+00:00'
+[2026-11-06T09:55:50.938+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-11-06T09:55:50.948+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-11-06T09:55:50.949+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'cd /opt/airflow/scripts && python3 model_train.py --model_train_date "2024-09-01" --train_test_months 12 --oot_months 2']
+[2026-11-06T09:55:50.957+0000] {subprocess.py:99} INFO - Output:
+[2026-11-06T09:55:53.383+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2026-11-06T09:55:53.384+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2026-11-06T09:55:53.540+0000] {subprocess.py:106} INFO - 26/11/06 09:55:53 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-11-06T09:56:03.586+0000] {subprocess.py:106} INFO - [Stage 2:>                                                        (0 + 24) / 24]                                                                                [Stage 3:================================================>        (18 + 3) / 21]                                                                                {'model_train_date': datetime.datetime(2024, 9, 1, 0, 0),
+[2026-11-06T09:56:03.587+0000] {subprocess.py:106} INFO -  'model_train_date_str': '2024-09-01',
+[2026-11-06T09:56:03.587+0000] {subprocess.py:106} INFO -  'oot_end_date': datetime.datetime(2024, 8, 31, 0, 0),
+[2026-11-06T09:56:03.588+0000] {subprocess.py:106} INFO -  'oot_period_months': 2,
+[2026-11-06T09:56:03.589+0000] {subprocess.py:106} INFO -  'oot_start_date': datetime.datetime(2024, 7, 1, 0, 0),
+[2026-11-06T09:56:03.589+0000] {subprocess.py:106} INFO -  'train_test_end_date': datetime.datetime(2024, 6, 30, 0, 0),
+[2026-11-06T09:56:03.590+0000] {subprocess.py:106} INFO -  'train_test_period_months': 12,
+[2026-11-06T09:56:03.590+0000] {subprocess.py:106} INFO -  'train_test_ratio': 0.8,
+[2026-11-06T09:56:03.591+0000] {subprocess.py:106} INFO -  'train_test_start_date': datetime.datetime(2023, 7, 1, 0, 0)}
+[2026-11-06T09:56:03.592+0000] {subprocess.py:106} INFO - labels in window: 6961 | labels without features: 0 | 2023-07-01 -> 2024-08-31
+[2026-11-06T09:56:03.592+0000] {subprocess.py:106} INFO - train rows= 4766  bad_rate=0.283  clickstream_missing=0.0%
+[2026-11-06T09:56:03.593+0000] {subprocess.py:106} INFO - test  rows= 1192  bad_rate=0.283  clickstream_missing=0.0%
+[2026-11-06T09:56:03.593+0000] {subprocess.py:106} INFO - oot   rows= 1003  bad_rate=0.290  clickstream_missing=0.0%
+[2026-11-06T09:56:10.784+0000] {subprocess.py:106} INFO - logreg   cv_auc=0.7859  gini train/test/oot = 0.599 / 0.621 / 0.564
+[2026-11-06T09:56:10.796+0000] {subprocess.py:106} INFO - xgboost  cv_auc=0.8114  gini train/test/oot = 0.834 / 0.688 / 0.653
+[2026-11-06T09:56:10.797+0000] {subprocess.py:106} INFO - selected (highest test AUC): xgboost
+[2026-11-06T09:56:10.798+0000] {subprocess.py:106} INFO - model saved to model_bank/credit_model_2024_09_01.pkl
+[2026-11-06T09:56:10.798+0000] {subprocess.py:106} INFO - metrics saved to model_bank/credit_model_2024_09_01.json
+[2026-11-06T09:56:10.799+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:56:10.799+0000] {subprocess.py:106} INFO - model_version: credit_model_2024_09_01 | type: xgboost
+[2026-11-06T09:56:10.800+0000] {subprocess.py:106} INFO - {'auc_oot': 0.8264,
+[2026-11-06T09:56:10.800+0000] {subprocess.py:106} INFO -  'auc_test': 0.844,
+[2026-11-06T09:56:10.800+0000] {subprocess.py:106} INFO -  'auc_train': 0.9169,
+[2026-11-06T09:56:10.801+0000] {subprocess.py:106} INFO -  'cv_auc': 0.8114,
+[2026-11-06T09:56:10.801+0000] {subprocess.py:106} INFO -  'gini_oot': 0.653,
+[2026-11-06T09:56:10.805+0000] {subprocess.py:106} INFO -  'gini_test': 0.688,
+[2026-11-06T09:56:10.807+0000] {subprocess.py:106} INFO -  'gini_train': 0.834}
+[2026-11-06T09:56:12.068+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2026-11-06T09:56:12.086+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-11-06T09:56:12.087+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=credit_model_pipeline, task_id=model_train, run_id=scheduled__2024-09-01T00:00:00+00:00, execution_date=20240901T000000, start_date=20261106T095550, end_date=20261106T095612
+[2026-11-06T09:56:12.113+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-11-06T09:56:12.127+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-11-06T09:56:12.134+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

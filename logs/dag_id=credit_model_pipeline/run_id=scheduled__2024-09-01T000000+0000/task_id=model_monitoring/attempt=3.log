@@ -1,0 +1,107 @@
+[2026-11-06T09:42:38.088+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-11-06T09:42:38.096+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: credit_model_pipeline.model_monitoring scheduled__2024-09-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:42:38.102+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: credit_model_pipeline.model_monitoring scheduled__2024-09-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:42:38.102+0000] {taskinstance.py:2867} INFO - Starting attempt 3 of 4
+[2026-11-06T09:42:38.111+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): model_monitoring> on 2024-09-01 00:00:00+00:00
+[2026-11-06T09:42:38.116+0000] {standard_task_runner.py:72} INFO - Started process 42297 to run task
+[2026-11-06T09:42:38.117+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'credit_model_pipeline', 'model_monitoring', 'scheduled__2024-09-01T00:00:00+00:00', '--job-id', '129', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmpngnli90c']
+[2026-11-06T09:42:38.119+0000] {standard_task_runner.py:105} INFO - Job 129: Subtask model_monitoring
+[2026-11-06T09:42:38.140+0000] {task_command.py:467} INFO - Running <TaskInstance: credit_model_pipeline.model_monitoring scheduled__2024-09-01T00:00:00+00:00 [running]> on host fe62c2944fac
+[2026-11-06T09:42:38.173+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='credit_model_pipeline' AIRFLOW_CTX_TASK_ID='model_monitoring' AIRFLOW_CTX_EXECUTION_DATE='2024-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='3' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-09-01T00:00:00+00:00'
+[2026-11-06T09:42:38.174+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-11-06T09:42:38.182+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-11-06T09:42:38.183+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'cd /opt/airflow/scripts && python3 model_monitoring.py --snapshotdate "2024-09-01"']
+[2026-11-06T09:42:38.191+0000] {subprocess.py:99} INFO - Output:
+[2026-11-06T09:42:40.354+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2026-11-06T09:42:40.355+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2026-11-06T09:42:40.522+0000] {subprocess.py:106} INFO - 26/11/06 09:42:40 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-11-06T09:42:53.698+0000] {subprocess.py:106} INFO - [Stage 3:>                (0 + 23) / 23][Stage 4:>                 (0 + 1) / 23][Stage 3:====>            (6 + 17) / 23][Stage 4:>                 (0 + 7) / 23][Stage 3:=============>   (18 + 5) / 23][Stage 4:>                (0 + 21) / 23]                                                                                [Stage 5:>                                                        (0 + 24) / 24]
+[2026-11-06T09:42:53.700+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:42:53.701+0000] {subprocess.py:106} INFO - ---starting job---
+[2026-11-06T09:42:53.701+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:42:53.702+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:42:53.702+0000] {subprocess.py:106} INFO - Traceback (most recent call last):
+[2026-11-06T09:42:53.703+0000] {subprocess.py:106} INFO -   File "/opt/airflow/scripts/model_monitoring.py", line 39, in <module>
+[2026-11-06T09:42:53.703+0000] {subprocess.py:106} INFO -     results = main(args.snapshotdate)
+[2026-11-06T09:42:53.703+0000] {subprocess.py:106} INFO -               ^^^^^^^^^^^^^^^^^^^^^^^
+[2026-11-06T09:42:53.704+0000] {subprocess.py:106} INFO -   File "/opt/airflow/scripts/model_monitoring.py", line 26, in main
+[2026-11-06T09:42:53.704+0000] {subprocess.py:106} INFO -     results = mm.run_monitoring(spark, snapshotdate)
+[2026-11-06T09:42:53.705+0000] {subprocess.py:106} INFO -               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-11-06T09:42:53.705+0000] {subprocess.py:106} INFO -   File "/opt/airflow/scripts/utils/model_monitoring.py", line 360, in run_monitoring
+[2026-11-06T09:42:53.708+0000] {subprocess.py:106} INFO -     save_monitoring(spark, mon_pdf)
+[2026-11-06T09:42:53.708+0000] {subprocess.py:106} INFO -   File "/opt/airflow/scripts/utils/model_monitoring.py", line 329, in save_monitoring
+[2026-11-06T09:42:53.712+0000] {subprocess.py:106} INFO -     sdf = sdf.withColumn(c, nanvl(col(c), lit(None).cast("double")))
+[2026-11-06T09:42:53.713+0000] {subprocess.py:106} INFO -                             ^^^^^
+[2026-11-06T09:42:53.713+0000] {subprocess.py:106} INFO - NameError: name 'nanvl' is not defined
+[2026-11-06T09:42:54.537+0000] {subprocess.py:110} INFO - Command exited with return code 1
+[2026-11-06T09:42:54.558+0000] {taskinstance.py:3313} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py", line 276, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-11-06T09:42:54.568+0000] {taskinstance.py:1226} INFO - Marking task as UP_FOR_RETRY. dag_id=credit_model_pipeline, task_id=model_monitoring, run_id=scheduled__2024-09-01T00:00:00+00:00, execution_date=20240901T000000, start_date=20261106T094238, end_date=20261106T094254
+[2026-11-06T09:42:54.593+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-11-06T09:42:54.593+0000] {standard_task_runner.py:124} ERROR - Failed to execute job 129 for task model_monitoring (Bash command failed. The command returned a non-zero exit code 1.; 42297)
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py", line 117, in _start_by_fork
+    ret = args.func(args, dag=self.dag)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/cli_config.py", line 49, in command
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/cli.py", line 116, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 483, in task_run
+    task_return_code = _run_task_by_selected_method(args, _dag, ti)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 256, in _run_task_by_selected_method
+    return _run_raw_task(args, ti)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/cli/commands/task_command.py", line 341, in _run_raw_task
+    return ti._run_raw_task(
+           ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/session.py", line 97, in wrapper
+    return func(*args, session=session, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3006, in _run_raw_task
+    return _run_raw_task(
+           ^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 274, in _run_raw_task
+    TaskInstance._execute_task_with_callbacks(
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3161, in _execute_task_with_callbacks
+    result = self._execute_task(context, task_orig)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 3185, in _execute_task
+    return _execute_task(self, context, task_orig)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 768, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 734, in _execute_callable
+    return ExecutionCallableRunner(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/utils/operator_helpers.py", line 252, in run
+    return self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 424, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/bash.py", line 276, in execute
+    raise AirflowException(
+airflow.exceptions.AirflowException: Bash command failed. The command returned a non-zero exit code 1.
+[2026-11-06T09:42:54.603+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
+[2026-11-06T09:42:54.618+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-11-06T09:42:54.619+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

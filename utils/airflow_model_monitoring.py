@@ -2,7 +2,7 @@
 Monitor every model that has predictions in datamart/gold/model_predictions/, as of a snapshot date.
 
 Usage (from the project root):
-    python model_monitoring.py --snapshotdate 2025-07-01
+    python -m utils.airflow_model_monitoring --snapshotdate 2025-07-01
 
 Writes datamart/gold/model_monitoring/<model>/<model>_monitoring_<date>.parquet (+ .png chart).
 Exit code 99 = nothing to monitor yet (Airflow marks the task as skipped).

@@ -205,7 +205,7 @@ def monitor_model(pdf, model_artefact, as_of):
     """One row per application month."""
     baseline = model_artefact.get("baseline")
     if baseline is None:
-        raise KeyError(f"{model_artefact['model_version']} has no 'baseline' - retrain it with the current model_train.py")
+        raise KeyError(f"{model_artefact['model_version']} has no 'baseline' - retrain it with the current utils/airflow_model_train.py")
     reference_gini = model_artefact["results"]["gini_oot"]
     click_cols = [c for c in model_artefact["feature_cols"] if c.startswith("fe_")]
 

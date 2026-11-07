@@ -1,7 +1,7 @@
 """
 Model training utilities for the credit default model (label: 30dpd_6mob).
 
-Shared by `model_train.py` (CLI) and `model_train_main.ipynb` (notebook) so the two
+Shared by `utils/airflow_model_train.py` (CLI) and `model_train_main.ipynb` (notebook) so the two
 can never drift apart.
 
 Point-in-time rules
@@ -133,7 +133,7 @@ def load_training_data(spark, config, feature_store_dir=FEATURE_STORE_DIR, label
         raise ValueError(
             f"{n_unmatched} labels have no features: gold feature store is missing application month(s) "
             f"{missing_months}. Run the feature pipeline for those months first "
-            f"(python data_pipeline.py --snapshotdate <month> --stage features)."
+            f"(python -m utils.airflow_data_pipeline --snapshotdate <month> --stage features)."
         )
 
     # point-in-time guard: features must be from before the training date

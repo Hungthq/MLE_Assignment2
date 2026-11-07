@@ -4,9 +4,9 @@ This guide explains the modelling stages of the credit default pipeline as the c
 
 | Stage | Script | Logic | Runs | Output |
 |---|---|---|---|---|
-| Training | `model_train.py` | `utils/model_train.py` | Dates in `RETRAIN_DATES` | `model_bank/` |
-| Inference | `model_inference.py` | Same file | Every month | `datamart/gold/model_predictions/` |
-| Monitoring | `model_monitoring.py` | `utils/model_monitoring.py` | Every month | `datamart/gold/model_monitoring/` |
+| Training | `utils/airflow_model_train.py` | `utils/model_train.py` | Dates in `RETRAIN_DATES` | `model_bank/` |
+| Inference | `utils/airflow_model_inference.py` | Same file | Every month | `datamart/gold/model_predictions/` |
+| Monitoring | `utils/airflow_model_monitoring.py` | `utils/model_monitoring.py` | Every month | `datamart/gold/model_monitoring/` |
 
 ## Key dates
 
@@ -88,7 +88,7 @@ For each model, `model_bank/` holds:
 To run training by hand:
 
 ```bash
-python model_train.py --model_train_date 2024-09-01 --train_test_months 12 --oot_months 2
+python -m utils.airflow_model_train --model_train_date 2024-09-01 --train_test_months 12 --oot_months 2
 ```
 
 ## Inference
@@ -117,8 +117,8 @@ The output is a probability score, not an approve-or-decline decision. The pipel
 To score a month by hand:
 
 ```bash
-python model_inference.py --snapshotdate 2024-10-01 --modelname latest
-python model_inference.py --snapshotdate 2024-10-01 --modelname credit_model_2024_09_01.pkl
+python -m utils.airflow_model_inference --snapshotdate 2024-10-01 --modelname latest
+python -m utils.airflow_model_inference --snapshotdate 2024-10-01 --modelname credit_model_2024_09_01.pkl
 ```
 
 ## Monitoring
@@ -194,7 +194,7 @@ Earlier as-of dates have no Gini until labels arrive. For example, the 2024-09-0
 To run monitoring by hand:
 
 ```bash
-python model_monitoring.py --snapshotdate 2025-07-01
+python -m utils.airflow_model_monitoring --snapshotdate 2025-07-01
 ```
 
 ## Current limitations

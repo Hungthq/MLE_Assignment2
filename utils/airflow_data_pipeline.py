@@ -1,9 +1,9 @@
 """
-Bronze -> silver -> gold for ONE snapshot month (the per-month version of main.py, for Airflow).
+Bronze -> silver -> gold for ONE snapshot month (the per-month version of utils/data_pipeline_all_months.py, for Airflow).
 
 Usage (from the project root):
-    python data_pipeline.py --snapshotdate 2024-09-01 --stage labels     # loans -> gold label store
-    python data_pipeline.py --snapshotdate 2024-09-01 --stage features   # attributes/financials/clickstream -> gold feature store
+    python -m utils.airflow_data_pipeline --snapshotdate 2024-09-01 --stage labels     # loans -> gold label store
+    python -m utils.airflow_data_pipeline --snapshotdate 2024-09-01 --stage features   # attributes/financials/clickstream -> gold feature store
 
 Exit code 99 = the source has no rows for that month (Airflow marks the task as skipped).
 """

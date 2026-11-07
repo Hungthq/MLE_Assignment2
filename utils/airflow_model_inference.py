@@ -13,10 +13,10 @@ from pyspark.sql.functions import col
 from pyspark.sql.types import DecimalType
 
 
-# to call this script: python model_inference.py --snapshotdate "2024-09-01" --modelname "credit_model_2024_09_01.pkl"
+# to call this script: python -m utils.airflow_model_inference --snapshotdate "2024-09-01" --modelname "credit_model_2024_09_01.pkl"
 #
 # snapshotdate = application month in the gold feature store (datamart/gold/feature_store/).
-# The model artefact is a full sklearn Pipeline (preprocessing + model) trained by model_train.py,
+# The model artefact is a full sklearn Pipeline (preprocessing + model) trained by utils/airflow_model_train.py,
 # so it takes the raw gold feature columns listed in model_artefact["feature_cols"].
 
 FEATURE_STORE_DIR = "datamart/gold/feature_store/"

@@ -2,8 +2,8 @@
 Train the credit default model for one training date and save the artefact to model_bank/.
 
 Usage (from the project root):
-    python model_train.py --model_train_date 2024-09-01
-    python model_train.py --model_train_date 2025-04-01 --train_test_months 12 --oot_months 2
+    python -m utils.airflow_model_train --model_train_date 2024-09-01
+    python -m utils.airflow_model_train --model_train_date 2025-04-01 --train_test_months 12 --oot_months 2
 """
 
 import argparse

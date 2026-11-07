@@ -28,3 +28,33 @@
 [2026-10-27T07:41:00.159+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
 [2026-10-27T07:41:00.171+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
 [2026-10-27T07:41:00.175+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-11-06T09:23:58.009+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-11-06T09:23:58.017+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: credit_model_pipeline.label_pipeline scheduled__2024-08-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:23:58.021+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: credit_model_pipeline.label_pipeline scheduled__2024-08-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:23:58.022+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2026-11-06T09:23:58.030+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): label_pipeline> on 2024-08-01 00:00:00+00:00
+[2026-11-06T09:23:58.034+0000] {standard_task_runner.py:72} INFO - Started process 29669 to run task
+[2026-11-06T09:23:58.036+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'credit_model_pipeline', 'label_pipeline', 'scheduled__2024-08-01T00:00:00+00:00', '--job-id', '97', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmpqhl4e4vb']
+[2026-11-06T09:23:58.037+0000] {standard_task_runner.py:105} INFO - Job 97: Subtask label_pipeline
+[2026-11-06T09:23:58.057+0000] {task_command.py:467} INFO - Running <TaskInstance: credit_model_pipeline.label_pipeline scheduled__2024-08-01T00:00:00+00:00 [running]> on host fe62c2944fac
+[2026-11-06T09:23:58.091+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='credit_model_pipeline' AIRFLOW_CTX_TASK_ID='label_pipeline' AIRFLOW_CTX_EXECUTION_DATE='2024-08-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-08-01T00:00:00+00:00'
+[2026-11-06T09:23:58.092+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-11-06T09:23:58.099+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-11-06T09:23:58.100+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'cd /opt/airflow/scripts && python3 data_pipeline.py --snapshotdate "2024-08-01" --stage labels']
+[2026-11-06T09:23:58.107+0000] {subprocess.py:99} INFO - Output:
+[2026-11-06T09:23:59.617+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2026-11-06T09:23:59.618+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2026-11-06T09:23:59.809+0000] {subprocess.py:106} INFO - 26/11/06 09:23:59 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-11-06T09:24:10.013+0000] {subprocess.py:106} INFO - [Stage 16:>                                                         (0 + 1) / 1]                                                                                2024-08-01row count: 5531
+[2026-11-06T09:24:10.014+0000] {subprocess.py:106} INFO - saved to: datamart/bronze/lms_loan_daily/bronze_daily_2024_08_01.csv
+[2026-11-06T09:24:10.015+0000] {subprocess.py:106} INFO - loaded from: datamart/bronze/lms_loan_daily/bronze_daily_2024_08_01.csv row count: 5531
+[2026-11-06T09:24:10.015+0000] {subprocess.py:106} INFO - saved to: datamart/silver/lms_loan_daily/silver_loan_daily_2024_08_01.parquet
+[2026-11-06T09:24:10.015+0000] {subprocess.py:106} INFO - loaded from: datamart/silver/lms_loan_daily/silver_loan_daily_2024_08_01.parquet row count: 5531
+[2026-11-06T09:24:10.016+0000] {subprocess.py:106} INFO - final row count: 518
+[2026-11-06T09:24:10.017+0000] {subprocess.py:106} INFO - saved to: datamart/gold/label_store/gold_label_store_2024_08_01.parquet
+[2026-11-06T09:24:10.473+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2026-11-06T09:24:10.487+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-11-06T09:24:10.488+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=credit_model_pipeline, task_id=label_pipeline, run_id=scheduled__2024-08-01T00:00:00+00:00, execution_date=20240801T000000, start_date=20261106T092358, end_date=20261106T092410
+[2026-11-06T09:24:10.505+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-11-06T09:24:10.516+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-11-06T09:24:10.520+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

@@ -35,3 +35,40 @@
 [2026-10-27T08:31:39.733+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
 [2026-10-27T08:31:39.741+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
 [2026-10-27T08:31:39.741+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-11-06T10:03:38.915+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-11-06T10:03:38.924+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: credit_model_pipeline.model_monitoring scheduled__2025-05-01T00:00:00+00:00 [queued]>
+[2026-11-06T10:03:38.927+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: credit_model_pipeline.model_monitoring scheduled__2025-05-01T00:00:00+00:00 [queued]>
+[2026-11-06T10:03:38.928+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2026-11-06T10:03:38.936+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): model_monitoring> on 2025-05-01 00:00:00+00:00
+[2026-11-06T10:03:38.940+0000] {standard_task_runner.py:72} INFO - Started process 58462 to run task
+[2026-11-06T10:03:38.941+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'credit_model_pipeline', 'model_monitoring', 'scheduled__2025-05-01T00:00:00+00:00', '--job-id', '172', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmprm_14dxv']
+[2026-11-06T10:03:38.942+0000] {standard_task_runner.py:105} INFO - Job 172: Subtask model_monitoring
+[2026-11-06T10:03:38.962+0000] {task_command.py:467} INFO - Running <TaskInstance: credit_model_pipeline.model_monitoring scheduled__2025-05-01T00:00:00+00:00 [running]> on host fe62c2944fac
+[2026-11-06T10:03:38.998+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='credit_model_pipeline' AIRFLOW_CTX_TASK_ID='model_monitoring' AIRFLOW_CTX_EXECUTION_DATE='2025-05-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-05-01T00:00:00+00:00'
+[2026-11-06T10:03:39.000+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-11-06T10:03:39.008+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-11-06T10:03:39.009+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'cd /opt/airflow/scripts && python3 model_monitoring.py --snapshotdate "2025-05-01"']
+[2026-11-06T10:03:39.016+0000] {subprocess.py:99} INFO - Output:
+[2026-11-06T10:03:41.186+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2026-11-06T10:03:41.187+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2026-11-06T10:03:41.338+0000] {subprocess.py:106} INFO - 26/11/06 10:03:41 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-11-06T10:04:01.768+0000] {subprocess.py:106} INFO - [Stage 3:>                (0 + 15) / 15][Stage 4:>                 (0 + 9) / 13][Stage 3:=>               (1 + 14) / 15][Stage 4:>                (0 + 10) / 13][Stage 3:===>             (3 + 12) / 15][Stage 4:>                (0 + 12) / 13]                                                                                [Stage 5:>                                                        (0 + 24) / 24]                                                                                [Stage 6:>                                                        (0 + 24) / 24][Stage 6:==============================>                         (13 + 11) / 24]
+[2026-11-06T10:04:01.769+0000] {subprocess.py:106} INFO - 
+[2026-11-06T10:04:01.769+0000] {subprocess.py:106} INFO - ---starting job---
+[2026-11-06T10:04:01.770+0000] {subprocess.py:106} INFO - 
+[2026-11-06T10:04:01.770+0000] {subprocess.py:106} INFO - 
+[2026-11-06T10:04:01.770+0000] {subprocess.py:106} INFO - saved to: datamart/gold/model_monitoring/credit_model_2024_09_01/credit_model_2024_09_01_monitoring_2025_05_01.parquet
+[2026-11-06T10:04:01.771+0000] {subprocess.py:106} INFO - chart saved to: datamart/gold/model_monitoring/credit_model_2024_09_01/credit_model_2024_09_01_monitoring_2025_05_01.png
+[2026-11-06T10:04:01.771+0000] {subprocess.py:106} INFO - credit_model_2024_09_01: 5 months | latest scored month 2025-01-01 status=RED (score_psi=1.025, max_feature_psi=16.111 [fe_15])
+[2026-11-06T10:04:01.771+0000] {subprocess.py:106} INFO -    latest post-training Gini: 0.603 for 2024-11-01 vs reference 0.653 -> GREEN
+[2026-11-06T10:04:01.771+0000] {subprocess.py:106} INFO - 
+[2026-11-06T10:04:01.772+0000] {subprocess.py:106} INFO - 
+[2026-11-06T10:04:01.772+0000] {subprocess.py:106} INFO - ---completed job---
+[2026-11-06T10:04:01.772+0000] {subprocess.py:106} INFO - 
+[2026-11-06T10:04:01.773+0000] {subprocess.py:106} INFO - 
+[2026-11-06T10:04:02.431+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2026-11-06T10:04:02.442+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-11-06T10:04:02.443+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=credit_model_pipeline, task_id=model_monitoring, run_id=scheduled__2025-05-01T00:00:00+00:00, execution_date=20250501T000000, start_date=20261106T100338, end_date=20261106T100402
+[2026-11-06T10:04:02.458+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-11-06T10:04:02.464+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-11-06T10:04:02.465+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

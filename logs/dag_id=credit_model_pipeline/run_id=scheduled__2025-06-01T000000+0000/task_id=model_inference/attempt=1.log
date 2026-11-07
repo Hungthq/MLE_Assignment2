@@ -21,3 +21,26 @@
 [2026-10-27T08:32:15.208+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
 [2026-10-27T08:32:15.219+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
 [2026-10-27T08:32:15.223+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-11-06T10:04:34.856+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-11-06T10:04:34.865+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: credit_model_pipeline.model_inference scheduled__2025-06-01T00:00:00+00:00 [queued]>
+[2026-11-06T10:04:34.869+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: credit_model_pipeline.model_inference scheduled__2025-06-01T00:00:00+00:00 [queued]>
+[2026-11-06T10:04:34.869+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2026-11-06T10:04:34.877+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): model_inference> on 2025-06-01 00:00:00+00:00
+[2026-11-06T10:04:34.882+0000] {standard_task_runner.py:72} INFO - Started process 59862 to run task
+[2026-11-06T10:04:34.883+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'credit_model_pipeline', 'model_inference', 'scheduled__2025-06-01T00:00:00+00:00', '--job-id', '176', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmpj8inmdmm']
+[2026-11-06T10:04:34.884+0000] {standard_task_runner.py:105} INFO - Job 176: Subtask model_inference
+[2026-11-06T10:04:34.905+0000] {task_command.py:467} INFO - Running <TaskInstance: credit_model_pipeline.model_inference scheduled__2025-06-01T00:00:00+00:00 [running]> on host fe62c2944fac
+[2026-11-06T10:04:34.946+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='credit_model_pipeline' AIRFLOW_CTX_TASK_ID='model_inference' AIRFLOW_CTX_EXECUTION_DATE='2025-06-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-06-01T00:00:00+00:00'
+[2026-11-06T10:04:34.947+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-11-06T10:04:34.955+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-11-06T10:04:34.956+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'cd /opt/airflow/scripts && python3 model_inference.py --snapshotdate "2025-06-01" --modelname latest']
+[2026-11-06T10:04:34.962+0000] {subprocess.py:99} INFO - Output:
+[2026-11-06T10:04:35.634+0000] {subprocess.py:106} INFO - latest model: credit_model_2025_04_01.pkl
+[2026-11-06T10:04:35.635+0000] {subprocess.py:106} INFO - no gold feature store partition for 2025-06-01 - nothing to score
+[2026-11-06T10:04:35.699+0000] {subprocess.py:110} INFO - Command exited with return code 99
+[2026-11-06T10:04:35.700+0000] {taskinstance.py:302} INFO - Bash command returned exit code 99. Skipping.
+[2026-11-06T10:04:35.711+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-11-06T10:04:35.711+0000] {taskinstance.py:353} INFO - Marking task as SKIPPED. dag_id=credit_model_pipeline, task_id=model_inference, run_id=scheduled__2025-06-01T00:00:00+00:00, execution_date=20250601T000000, start_date=20261106T100434, end_date=20261106T100435
+[2026-11-06T10:04:35.725+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-11-06T10:04:35.735+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-11-06T10:04:35.738+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

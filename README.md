@@ -50,6 +50,12 @@ Each run uses its logical date (`{{ ds }}`) as the snapshot month.
 
 | Task | What it does | Script | When it does nothing |
 |---|---|---|---|
+| `label_pipeline` | Takes loans through bronze, silver and the gold label store | `utils/airflow_data_pipeline.py --stage labels` | No loan rows for the month |
+| `feature_pipeline` | Takes attributes, financials and clickstream through bronze and silver to the gold feature store | `utils/airflow_data_pipeline.py --stage features` | No applications for the month (after 2025-01) |
+| `retrain_gate` | Lets training run only on dates in `RETRAIN_DATES` | `dag/dag.py` | Skips `model_train` on all other dates |
+| `model_train` | Trains and selects a model, then saves it to `model_bank/` | `utils/airflow_model_train.py` | Not a retrain date |
+| `model_inference` | Scores the month's applicants with the newest model trained on or before that date | `utils/airflow_model_inference.py --modelname latest` | No model or no feature partition yet |
+| `model_monitoring` | Calculates stability and, once labels mature, performance for each model | `utils/airflow_model_monitoring.py` | No predictions yet |
 | `label_pipeline` | Takes loans through bronze, silver and the gold label store | `data_pipeline.py --stage labels` | No loan rows for the month |
 | `feature_pipeline` | Takes attributes, financials and clickstream through bronze and silver to the gold feature store | `data_pipeline.py --stage features` | No applications for the month (after 2025-01) |
 | `retrain_gate` | Lets training run only on dates in `RETRAIN_DATES` | `dag/dag.py` | Skips `model_train` on all other dates |
@@ -62,6 +68,22 @@ A script that exits with code 99 has nothing to do that month, and Airflow marks
 ## Repository layout
 
 ```text
+dag/dag.py                         Airflow DAG
+utils/airflow_data_pipeline.py     Data pipeline for one month (Airflow task)
+utils/airflow_model_train.py       Training script (Airflow task)
+utils/airflow_model_inference.py   Scoring script (Airflow task)
+utils/airflow_model_monitoring.py  Monitoring script (Airflow task)
+utils/data_pipeline_all_months.py  Rebuilds all months in one run (manual use only)
+utils/                             Bronze, silver, gold, training and monitoring logic
+data/                              Source CSV files
+datamart/                          Bronze, silver and gold outputs used by the pipeline
+_datamart/                         Older copy of the outputs, not used by the pipeline
+model_bank/                        Saved models (.pkl) and their metadata (.json)
+*.ipynb                            Notebooks for EDA and development
+Dockerfile.airflow                 Airflow image
+Dockerfile.jupyter                 JupyterLab image
+docker-compose.yaml                Airflow and JupyterLab services
+requirements.txt                   Python dependencies
 dag/dag.py                 Airflow DAG
 data_pipeline.py           Data pipeline for one month (used by Airflow)
 main.py                    Rebuilds all months in one run (manual use, not used by Airflow)
@@ -128,6 +150,31 @@ A month's overall status is the worst of the three. Gini is reported only when a
 
 ## Current results
 
+These results come from a full Airflow backfill. The DAG trained `credit_model_2024_09_01`, an XGBoost model with 57 input features:
+
+| Split | AUC | Gini |
+|---|---|---|
+| Train | 0.917 | 0.834 |
+| Test | 0.844 | 0.688 |
+| OOT | 0.826 | 0.653 |
+
+Monitoring as of 2025-07-01:
+
+| Application month | Clickstream missing | Score PSI | Gini | Gini status | Mean score | Bad rate | Overall status |
+|---|---|---|---|---|---|---|---|
+| 2024-09 | 100% | 0.949 | 0.602 | GREEN | 0.609 | 0.331 | RED |
+| 2024-10 | 100% | 1.051 | 0.622 | GREEN | 0.597 | 0.246 | RED |
+| 2024-11 | 100% | 1.063 | 0.603 | GREEN | 0.618 | 0.281 | RED |
+| 2024-12 | 100% | 0.685 | 0.700 | GREEN | 0.572 | 0.272 | RED |
+| 2025-01 | 100% | 1.025 | 0.565 | AMBER | 0.610 | 0.268 | RED |
+
+The model still ranks customers close to its baseline. Every month is RED because of PSI, which is driven by the missing clickstream features.
+
+## Known limitations
+
+- **Clickstream gap:** applicants from 2024-07 onward are not in the clickstream file, so every month this model has scored has no clickstream at all. Retraining alone will not fix it, because the fix has to come from the data source or from a model that doesn't use these features.
+- **Scores are not calibrated:** the mean score is about 0.60, while the actual bad rate is about 0.28. Use the scores as a ranking, not as default probabilities, unless they are calibrated first.
+- **Skipped scoring can hide a failure:** if training fails, later inference runs skip with "no model" instead of failing.
 These are the saved results for `credit_model_2024_09_01`, an XGBoost model with 57 input features:
 
 | Split | AUC | Gini |
@@ -156,6 +203,14 @@ Monitoring as of 2025-07-01:
 
 ## Run one step manually
 
+Run these from the project folder while the services are up. Replace the dates as needed. The scripts live in `utils/` and run as modules (`python3 -m utils.<script>`) from the project root, so their `utils.` imports and the relative `data/`, `datamart/` and `model_bank/` paths keep working.
+
+```bash
+docker-compose exec airflow-scheduler bash -c "cd /opt/airflow/scripts && python3 -m utils.airflow_data_pipeline --snapshotdate 2024-09-01 --stage labels"
+docker-compose exec airflow-scheduler bash -c "cd /opt/airflow/scripts && python3 -m utils.airflow_data_pipeline --snapshotdate 2024-09-01 --stage features"
+docker-compose exec airflow-scheduler bash -c "cd /opt/airflow/scripts && python3 -m utils.airflow_model_train --model_train_date 2024-09-01"
+docker-compose exec airflow-scheduler bash -c "cd /opt/airflow/scripts && python3 -m utils.airflow_model_inference --snapshotdate 2024-10-01 --modelname latest"
+docker-compose exec airflow-scheduler bash -c "cd /opt/airflow/scripts && python3 -m utils.airflow_model_monitoring --snapshotdate 2025-07-01"
 Run these from the project folder while the services are up. Replace the dates as needed.
 
 ```bash

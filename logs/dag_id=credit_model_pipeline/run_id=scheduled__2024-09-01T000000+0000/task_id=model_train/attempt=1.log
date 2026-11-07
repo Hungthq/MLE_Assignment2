@@ -109,3 +109,53 @@ airflow.exceptions.AirflowException: Bash command failed. The command returned a
 [2026-10-27T07:42:35.698+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 1
 [2026-10-27T07:42:35.707+0000] {taskinstance.py:3901} INFO - 0 downstream tasks scheduled from follow-on schedule check
 [2026-10-27T07:42:35.708+0000] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2026-11-06T09:25:39.514+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-11-06T09:25:39.522+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: credit_model_pipeline.model_train scheduled__2024-09-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:25:39.525+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: credit_model_pipeline.model_train scheduled__2024-09-01T00:00:00+00:00 [queued]>
+[2026-11-06T09:25:39.526+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 2
+[2026-11-06T09:25:39.533+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): model_train> on 2024-09-01 00:00:00+00:00
+[2026-11-06T09:25:39.538+0000] {standard_task_runner.py:72} INFO - Started process 32364 to run task
+[2026-11-06T09:25:39.539+0000] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'credit_model_pipeline', 'model_train', 'scheduled__2024-09-01T00:00:00+00:00', '--job-id', '105', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmpqogg4vfe']
+[2026-11-06T09:25:39.540+0000] {standard_task_runner.py:105} INFO - Job 105: Subtask model_train
+[2026-11-06T09:25:39.561+0000] {task_command.py:467} INFO - Running <TaskInstance: credit_model_pipeline.model_train scheduled__2024-09-01T00:00:00+00:00 [running]> on host fe62c2944fac
+[2026-11-06T09:25:39.594+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='credit_model_pipeline' AIRFLOW_CTX_TASK_ID='model_train' AIRFLOW_CTX_EXECUTION_DATE='2024-09-01T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2024-09-01T00:00:00+00:00'
+[2026-11-06T09:25:39.595+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-11-06T09:25:39.601+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-11-06T09:25:39.602+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', 'cd /opt/airflow/scripts && python3 model_train.py --model_train_date "2024-09-01" --train_test_months 12 --oot_months 2']
+[2026-11-06T09:25:39.608+0000] {subprocess.py:99} INFO - Output:
+[2026-11-06T09:25:41.988+0000] {subprocess.py:106} INFO - Setting default log level to "WARN".
+[2026-11-06T09:25:41.989+0000] {subprocess.py:106} INFO - To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+[2026-11-06T09:25:42.188+0000] {subprocess.py:106} INFO - 26/11/06 09:25:42 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-11-06T09:25:51.478+0000] {subprocess.py:106} INFO - [Stage 2:>                                                        (0 + 22) / 22]                                                                                {'model_train_date': datetime.datetime(2024, 9, 1, 0, 0),
+[2026-11-06T09:25:51.479+0000] {subprocess.py:106} INFO -  'model_train_date_str': '2024-09-01',
+[2026-11-06T09:25:51.479+0000] {subprocess.py:106} INFO -  'oot_end_date': datetime.datetime(2024, 8, 31, 0, 0),
+[2026-11-06T09:25:51.479+0000] {subprocess.py:106} INFO -  'oot_period_months': 2,
+[2026-11-06T09:25:51.480+0000] {subprocess.py:106} INFO -  'oot_start_date': datetime.datetime(2024, 7, 1, 0, 0),
+[2026-11-06T09:25:51.481+0000] {subprocess.py:106} INFO -  'train_test_end_date': datetime.datetime(2024, 6, 30, 0, 0),
+[2026-11-06T09:25:51.481+0000] {subprocess.py:106} INFO -  'train_test_period_months': 12,
+[2026-11-06T09:25:51.482+0000] {subprocess.py:106} INFO -  'train_test_ratio': 0.8,
+[2026-11-06T09:25:51.486+0000] {subprocess.py:106} INFO -  'train_test_start_date': datetime.datetime(2023, 7, 1, 0, 0)}
+[2026-11-06T09:25:51.486+0000] {subprocess.py:106} INFO - labels in window: 6961 | labels without features: 0 | 2023-07-01 -> 2024-08-31
+[2026-11-06T09:25:51.487+0000] {subprocess.py:106} INFO - train rows= 4766  bad_rate=0.283  clickstream_missing=0.0%
+[2026-11-06T09:25:51.488+0000] {subprocess.py:106} INFO - test  rows= 1192  bad_rate=0.283  clickstream_missing=0.0%
+[2026-11-06T09:25:51.488+0000] {subprocess.py:106} INFO - oot   rows= 1003  bad_rate=0.290  clickstream_missing=0.0%
+[2026-11-06T09:25:58.463+0000] {subprocess.py:106} INFO - logreg   cv_auc=0.7859  gini train/test/oot = 0.599 / 0.621 / 0.564
+[2026-11-06T09:25:58.463+0000] {subprocess.py:106} INFO - xgboost  cv_auc=0.8114  gini train/test/oot = 0.834 / 0.688 / 0.653
+[2026-11-06T09:25:58.464+0000] {subprocess.py:106} INFO - selected (highest test AUC): xgboost
+[2026-11-06T09:25:58.465+0000] {subprocess.py:106} INFO - model saved to model_bank/credit_model_2024_09_01.pkl
+[2026-11-06T09:25:58.466+0000] {subprocess.py:106} INFO - metrics saved to model_bank/credit_model_2024_09_01.json
+[2026-11-06T09:25:58.466+0000] {subprocess.py:106} INFO - 
+[2026-11-06T09:25:58.478+0000] {subprocess.py:106} INFO - model_version: credit_model_2024_09_01 | type: xgboost
+[2026-11-06T09:25:58.478+0000] {subprocess.py:106} INFO - {'auc_oot': 0.8264,
+[2026-11-06T09:25:58.489+0000] {subprocess.py:106} INFO -  'auc_test': 0.844,
+[2026-11-06T09:25:58.491+0000] {subprocess.py:106} INFO -  'auc_train': 0.9169,
+[2026-11-06T09:25:58.491+0000] {subprocess.py:106} INFO -  'cv_auc': 0.8114,
+[2026-11-06T09:25:58.492+0000] {subprocess.py:106} INFO -  'gini_oot': 0.653,
+[2026-11-06T09:25:58.492+0000] {subprocess.py:106} INFO -  'gini_test': 0.688,
+[2026-11-06T09:25:58.493+0000] {subprocess.py:106} INFO -  'gini_train': 0.834}
+[2026-11-06T09:25:59.767+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2026-11-06T09:25:59.779+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-11-06T09:25:59.780+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=credit_model_pipeline, task_id=model_train, run_id=scheduled__2024-09-01T00:00:00+00:00, execution_date=20240901T000000, start_date=20261106T092539, end_date=20261106T092559
+[2026-11-06T09:25:59.797+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-11-06T09:25:59.807+0000] {taskinstance.py:3901} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2026-11-06T09:25:59.812+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

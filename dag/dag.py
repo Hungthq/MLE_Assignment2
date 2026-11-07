@@ -67,13 +67,13 @@ with DAG(
     # ---------------- data pipeline ----------------
     label_pipeline = BashOperator(
         task_id="label_pipeline",
-        bash_command=script('python3 data_pipeline.py --snapshotdate "{{ ds }}" --stage labels'),
+        bash_command=script('python3 -m utils.airflow_data_pipeline --snapshotdate "{{ ds }}" --stage labels'),
         skip_on_exit_code=99,
     )
 
     feature_pipeline = BashOperator(
         task_id="feature_pipeline",
-        bash_command=script('python3 data_pipeline.py --snapshotdate "{{ ds }}" --stage features'),
+        bash_command=script('python3 -m utils.airflow_data_pipeline --snapshotdate "{{ ds }}" --stage features'),
         skip_on_exit_code=99,
     )
 
@@ -86,14 +86,14 @@ with DAG(
 
     model_train = BashOperator(
         task_id="model_train",
-        bash_command=script('python3 model_train.py --model_train_date "{{ ds }}" '
+        bash_command=script('python3 -m utils.airflow_model_train --model_train_date "{{ ds }}" '
                             '--train_test_months 12 --oot_months 2'),
     )
 
     # ---------------- inference ----------------
     model_inference = BashOperator(
         task_id="model_inference",
-        bash_command=script('python3 model_inference.py --snapshotdate "{{ ds }}" --modelname latest'),
+        bash_command=script('python3 -m utils.airflow_model_inference --snapshotdate "{{ ds }}" --modelname latest'),
         skip_on_exit_code=99,
         trigger_rule=TriggerRule.NONE_FAILED,
     )
@@ -101,7 +101,7 @@ with DAG(
     # ---------------- monitoring ----------------
     model_monitoring = BashOperator(
         task_id="model_monitoring",
-        bash_command=script('python3 model_monitoring.py --snapshotdate "{{ ds }}"'),
+        bash_command=script('python3 -m utils.airflow_model_monitoring --snapshotdate "{{ ds }}"'),
         skip_on_exit_code=99,
         trigger_rule=TriggerRule.NONE_FAILED,
     )
